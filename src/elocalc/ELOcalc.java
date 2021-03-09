@@ -2,6 +2,9 @@ package elocalc;
 import java.util.Random;
 import java.util.ArrayList;
 
+// TODO add skill rankings for players
+
+
 public class ELOcalc {
 
     public static void main(String[] args) {
@@ -27,19 +30,21 @@ public class ELOcalc {
         playerList.add(player4);
         playerList.add(player5);
 
+        int loopCount = 10;
         
-        
-        for (int i = 0; i < playerList.size(); i++) {  // repeats for every player in playerlist
-        	
-        	// function that returns a valid integer given current i value
-        	int validNum = returnValid(i, playerList.size());
-        	
-        	player winner = pickWinner(playerList.get(i), playerList.get(validNum));  // winner announcement
-        	if (winner == playerList.get(i)) {
-        		System.out.println("Winner is " + playerList.get(i) + " with an elo of " + playerList.get(i).elo);
-        	} else if (winner == playerList.get(validNum)) {
-        		System.out.println("Winner is " + playerList.get(validNum) + " with an elo of " + playerList.get(validNum).elo);
-        	}
+        for (int x = 0; x < loopCount; x++) {
+	        for (int i = 0; i < playerList.size(); i++) {  // repeats for every player in playerlist
+	        	
+	        	// function that returns a valid integer given current i value
+	        	int validNum = returnValid(i, playerList.size());
+	        	
+	        	player winner = pickWinner(playerList.get(i), playerList.get(validNum));  // winner announcement
+	        	if (winner == playerList.get(i)) {
+	        		System.out.println("Winner is " + playerList.get(i) + " with an elo of " + playerList.get(i).elo);
+	        	} else if (winner == playerList.get(validNum)) {
+	        		System.out.println("Winner is " + playerList.get(validNum) + " with an elo of " + playerList.get(validNum).elo);
+	        	}
+	        }
         }
         
         
@@ -48,6 +53,9 @@ public class ELOcalc {
         System.out.println(player3.elo);
         System.out.println(player4.elo);
         System.out.println(player5.elo);
+        
+        double eloSum = (player1.elo + player2.elo + player3.elo + player4.elo + player5.elo) / 5;
+        System.out.println(eloSum);
     }
     
     
@@ -86,9 +94,19 @@ public class ELOcalc {
     	if (randomInt <= playerA.winChance) {
     		playerA.elo = playerA.elo + 24 * (1 - expectedScoreA);
     		playerB.elo = playerB.elo + 24 * (0 - expectedScoreB);
+    		if (playerA.elo < 100) {  // make sure elo is at least 100
+    			playerA.elo = 100;
+    		} if (playerB.elo < 100) {
+    			playerB.elo = 100;
+    		}
     	} else {
     		playerA.elo = playerA.elo + 24 * (0 - expectedScoreA);
     		playerB.elo = playerB.elo + 24 * (1 - expectedScoreB);
+    		if (playerA.elo < 100) {  // make sure elo is at least 100
+    			playerA.elo = 100;
+    		} if (playerB.elo < 100) {
+    			playerB.elo = 100;
+    		}
     	}
     	
     	
